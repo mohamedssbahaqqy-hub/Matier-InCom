@@ -35,293 +35,301 @@ const coordinateurs = [
 
 
 /* =====================================================
-   DATABASE DES MATIERES
+   MATERIAL DATABASE
 =====================================================
 
+   IMPORTANT:
    Les quantités sont actuellement à 0.
 
-   On ajoutera les vraies quantités
-   quand tu me les donneras.
+   Nous ajouterons les vraies quantités
+   lorsque tu me donneras les données.
 ===================================================== */
+
 
 const materialDatabase = {
 
 
-    /* ================================================
+    /* =================================================
        V163 DAMIEL
-    ================================================ */
+    ================================================= */
 
-    "V163 Damiel":[
+    "V163 Damiel": [
 
         {
-            reference:"Shell LW + WW",
-            name:"Shell LW + WW",
-            quantity:0,
-            unit:""
+            reference: "Shell LW + WW",
+            name: "Shell LW + WW",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Main Web",
-            name:"Main Web",
-            quantity:0,
-            unit:""
+            reference: "Main Web",
+            name: "Main Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Web",
-            name:"TE Web",
-            quantity:0,
-            unit:""
+            reference: "TE Web",
+            name: "TE Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Insert",
-            name:"TE Insert",
-            quantity:0,
-            unit:""
+            reference: "TE Insert",
+            name: "TE Insert",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"RTF",
-            name:"RTF",
-            quantity:0,
-            unit:""
+            reference: "RTF",
+            name: "RTF",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Lamination",
-            name:"Lamination",
-            quantity:0,
-            unit:""
+            reference: "Lamination",
+            name: "Lamination",
+            quantity: 0,
+            unit: ""
         }
 
     ],
 
 
-    /* ================================================
+
+    /* =================================================
        V163 WD
-    ================================================ */
+    ================================================= */
 
-    "V163 WD":[
+    "V163 WD": [
 
         {
-            reference:"Shell LW + WW",
-            name:"Shell LW + WW",
-            quantity:0,
-            unit:""
+            reference: "Shell LW + WW",
+            name: "Shell LW + WW",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Main Web",
-            name:"Main Web",
-            quantity:0,
-            unit:""
+            reference: "Main Web",
+            name: "Main Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Web",
-            name:"TE Web",
-            quantity:0,
-            unit:""
+            reference: "TE Web",
+            name: "TE Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Insert",
-            name:"TE Insert",
-            quantity:0,
-            unit:""
+            reference: "TE Insert",
+            name: "TE Insert",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"RTF",
-            name:"RTF",
-            quantity:0,
-            unit:""
+            reference: "RTF",
+            name: "RTF",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Lamination",
-            name:"Lamination",
-            quantity:0,
-            unit:""
+            reference: "Lamination",
+            name: "Lamination",
+            quantity: 0,
+            unit: ""
         }
 
     ],
 
 
-    /* ================================================
+
+    /* =================================================
        V136
-    ================================================ */
+    ================================================= */
 
-    "V136":[
+    "V136": [
 
         {
-            reference:"Shell LW + WW",
-            name:"Shell LW + WW",
-            quantity:0,
-            unit:""
+            reference: "Shell LW + WW",
+            name: "Shell LW + WW",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Main Web",
-            name:"Main Web",
-            quantity:0,
-            unit:""
+            reference: "Main Web",
+            name: "Main Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Web",
-            name:"TE Web",
-            quantity:0,
-            unit:""
+            reference: "TE Web",
+            name: "TE Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Insert",
-            name:"TE Insert",
-            quantity:0,
-            unit:""
+            reference: "TE Insert",
+            name: "TE Insert",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"RTF",
-            name:"RTF",
-            quantity:0,
-            unit:""
+            reference: "RTF",
+            name: "RTF",
+            quantity: 0,
+            unit: ""
         }
 
     ],
 
 
-    /* ================================================
+
+    /* =================================================
        V110
-    ================================================ */
+    ================================================= */
 
-    "V110":[
+    "V110": [
 
         {
-            reference:"Shell",
-            name:"Shell",
-            quantity:0,
-            unit:""
+            reference: "Shell",
+            name: "Shell",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Lamination",
-            name:"Lamination",
-            quantity:0,
-            unit:""
+            reference: "Lamination",
+            name: "Lamination",
+            quantity: 0,
+            unit: ""
         }
 
     ],
 
 
-    /* ================================================
+
+    /* =================================================
        V236
-    ================================================ */
+    ================================================= */
 
-    "V236":[
+    "V236": [
 
         {
-            reference:"Shell LW + WW",
-            name:"Shell LW + WW",
-            quantity:0,
-            unit:""
+            reference: "Shell LW + WW",
+            name: "Shell LW + WW",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Main Web",
-            name:"Main Web",
-            quantity:0,
-            unit:""
+            reference: "Main Web",
+            name: "Main Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Web",
-            name:"TE Web",
-            quantity:0,
-            unit:""
+            reference: "TE Web",
+            name: "TE Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"TE Insert",
-            name:"TE Insert",
-            quantity:0,
-            unit:""
+            reference: "TE Insert",
+            name: "TE Insert",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"RTF",
-            name:"RTF",
-            quantity:0,
-            unit:""
+            reference: "RTF",
+            name: "RTF",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Lamination",
-            name:"Lamination",
-            quantity:0,
-            unit:""
+            reference: "Lamination",
+            name: "Lamination",
+            quantity: 0,
+            unit: ""
         }
 
     ],
 
 
-    /* ================================================
+
+    /* =================================================
        G145
-    ================================================ */
+    ================================================= */
 
-    "G145":[
+    "G145": [
 
         {
-            reference:"Shell LW + WW",
-            name:"Shell LW + WW",
-            quantity:0,
-            unit:""
+            reference: "Shell LW + WW",
+            name: "Shell LW + WW",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"LE Web + TE Web",
-            name:"LE Web + TE Web",
-            quantity:0,
-            unit:""
+            reference: "LE Web + TE Web",
+            name: "LE Web + TE Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Caps",
-            name:"Caps",
-            quantity:0,
-            unit:""
+            reference: "Caps",
+            name: "Caps",
+            quantity: 0,
+            unit: ""
         }
 
     ],
 
 
-    /* ================================================
+
+    /* =================================================
        G170
-    ================================================ */
+    ================================================= */
 
-    "G170":[
+    "G170": [
 
         {
-            reference:"Shell LW + WW",
-            name:"Shell LW + WW",
-            quantity:0,
-            unit:""
+            reference: "Shell LW + WW",
+            name: "Shell LW + WW",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"LE Web + TE Web",
-            name:"LE Web + TE Web",
-            quantity:0,
-            unit:""
+            reference: "LE Web + TE Web",
+            name: "LE Web + TE Web",
+            quantity: 0,
+            unit: ""
         },
 
         {
-            reference:"Caps",
-            name:"Caps",
-            quantity:0,
-            unit:""
+            reference: "Caps",
+            name: "Caps",
+            quantity: 0,
+            unit: ""
         }
 
     ]
@@ -333,7 +341,8 @@ const materialDatabase = {
    CHANGE POSTE
 ===================================================== */
 
-function changePoste(){
+function changePoste() {
+
 
     const poste =
         document.getElementById("poste").value;
@@ -363,6 +372,12 @@ function changePoste(){
         );
 
 
+    const invoiceContainer =
+        document.getElementById(
+            "invoiceContainer"
+        );
+
+
     /* Reset */
 
     responsable.innerHTML =
@@ -377,22 +392,19 @@ function changePoste(){
     );
 
 
-    document
-        .getElementById(
-            "invoiceContainer"
-        )
-        .classList.add(
-            "hidden"
-        );
+    invoiceContainer.classList.add(
+        "hidden"
+    );
 
 
-    if(!poste){
+    if (!poste) {
 
         responsableCard.classList.add(
             "hidden"
         );
 
         return;
+
     }
 
 
@@ -404,9 +416,12 @@ function changePoste(){
     let liste = [];
 
 
-    /* POSTE 450 */
+    /* =================================================
+       POSTE 450
+    ================================================= */
 
-    if(poste === "450"){
+    if (poste === "450") {
+
 
         document.getElementById(
             "responsableTitle"
@@ -425,9 +440,12 @@ function changePoste(){
     }
 
 
-    /* POSTE 402 */
+    /* =================================================
+       POSTE 402
+    ================================================= */
 
-    if(poste === "402"){
+    if (poste === "402") {
+
 
         document.getElementById(
             "responsableTitle"
@@ -446,10 +464,13 @@ function changePoste(){
     }
 
 
-    /* Ajouter les noms */
+    /* =================================================
+       ADD PEOPLE
+    ================================================= */
 
     liste.forEach(
-        function(person){
+        function (person) {
+
 
             const option =
                 document.createElement(
@@ -479,7 +500,8 @@ function changePoste(){
    CHANGE RESPONSABLE
 ===================================================== */
 
-function changeResponsable(){
+function changeResponsable() {
+
 
     const responsable =
         document.getElementById(
@@ -493,28 +515,31 @@ function changeResponsable(){
         );
 
 
-    if(responsable){
+    const invoiceContainer =
+        document.getElementById(
+            "invoiceContainer"
+        );
+
+
+    if (responsable) {
+
 
         projectCard.classList.remove(
             "hidden"
         );
 
-    }
 
-    else{
+    } else {
+
 
         projectCard.classList.add(
             "hidden"
         );
 
 
-        document
-            .getElementById(
-                "invoiceContainer"
-            )
-            .classList.add(
-                "hidden"
-            );
+        invoiceContainer.classList.add(
+            "hidden"
+        );
 
     }
 
@@ -525,7 +550,8 @@ function changeResponsable(){
    GENERATE INVOICE
 ===================================================== */
 
-function generateInvoice(){
+function generateInvoice() {
+
 
     const poste =
         document.getElementById(
@@ -551,21 +577,26 @@ function generateInvoice(){
         );
 
 
-    if(
+    if (
         !poste ||
         !responsable ||
         !project
-    ){
+    ) {
+
 
         invoiceContainer.classList.add(
             "hidden"
         );
 
+
         return;
+
     }
 
 
-    /* Informations */
+    /* =================================================
+       INFORMATION
+    ================================================= */
 
     document.getElementById(
         "invoicePoste"
@@ -585,12 +616,16 @@ function generateInvoice(){
         project;
 
 
-    /* Date + heure */
+    /* =================================================
+       DATE + TIME
+    ================================================= */
 
     updateDateTime();
 
 
-    /* Materials */
+    /* =================================================
+       MATERIALS
+    ================================================= */
 
     const materials =
         materialDatabase[project] || [];
@@ -606,12 +641,28 @@ function generateInvoice(){
 
 
     materials.forEach(
-        function(material,index){
+        function (
+            material,
+            index
+        ) {
+
 
             const row =
                 document.createElement(
                     "tr"
                 );
+
+
+            const quantity =
+                material.quantity > 0
+                    ? material.quantity
+                    : "-";
+
+
+            const unit =
+                material.unit
+                    ? material.unit
+                    : "-";
 
 
             row.innerHTML = `
@@ -629,29 +680,27 @@ function generateInvoice(){
                 </td>
 
                 <td>
-                    ${
-                        material.quantity ||
-                        "-"
-                    }
+                    ${quantity}
                 </td>
 
                 <td>
-                    ${
-                        material.unit ||
-                        "-"
-                    }
+                    ${unit}
                 </td>
 
             `;
 
 
-            body.appendChild(row);
+            body.appendChild(
+                row
+            );
 
         }
     );
 
 
-    /* Total references */
+    /* =================================================
+       TOTAL REFERENCES
+    ================================================= */
 
     document.getElementById(
         "totalReferences"
@@ -659,7 +708,9 @@ function generateInvoice(){
         materials.length;
 
 
-    /* Show invoice */
+    /* =================================================
+       SHOW INVOICE
+    ================================================= */
 
     invoiceContainer.classList.remove(
         "hidden"
@@ -672,7 +723,8 @@ function generateInvoice(){
    DATE + TIME
 ===================================================== */
 
-function updateDateTime(){
+function updateDateTime() {
+
 
     const now =
         new Date();
@@ -688,8 +740,11 @@ function updateDateTime(){
         now.toLocaleTimeString(
             "fr-FR",
             {
-                hour:"2-digit",
-                minute:"2-digit"
+
+                hour: "2-digit",
+
+                minute: "2-digit"
+
             }
         );
 
@@ -709,12 +764,41 @@ function updateDateTime(){
 
 
 /* =====================================================
-   PRINT
+   DOWNLOAD INVOICE
 ===================================================== */
 
-function printInvoice(){
+function downloadInvoice() {
+
 
     updateDateTime();
+
+
+    /*
+       Sur Android, cette fonction ouvre
+       la fenêtre d'impression.
+
+       Ensuite l'utilisateur peut choisir :
+
+       "Enregistrer au format PDF"
+
+       pour sauvegarder la facture.
+    */
+
+
+    window.print();
+
+}
+
+
+/* =====================================================
+   PRINT INVOICE
+===================================================== */
+
+function printInvoice() {
+
+
+    updateDateTime();
+
 
     window.print();
 
