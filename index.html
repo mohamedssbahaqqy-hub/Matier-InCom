@@ -1,35 +1,64 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#172554">
 
     <title>Matier Calculator</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
+
 </head>
+
 
 <body>
 
+
 <div class="app">
 
-    <!-- HEADER -->
+
+    <!-- ================= HEADER ================= -->
+
     <header class="header">
-        <h1>Matier Calculator</h1>
-        <p>Gestion et calcul automatique du matériel</p>
+
+        <div class="logo-box">
+            InComGroup
+        </div>
+
+        <h1>
+            Matier Calculator
+        </h1>
+
+        <p>
+            Gestion et calcul automatique du matériel
+        </p>
+
     </header>
 
 
-    <!-- POSTE -->
+
+    <!-- ================= POSTE ================= -->
+
     <section class="card">
 
-        <h2>1. Sélection du Poste</h2>
+        <h2>
+            1. Sélection du Poste
+        </h2>
 
         <label for="poste">
             Poste
         </label>
 
-        <select id="poste" onchange="changePoste()">
+        <select id="poste"
+                onchange="changePoste()">
 
             <option value="">
                 -- Choisir le Poste --
@@ -48,10 +77,11 @@
     </section>
 
 
-    <!-- RESPONSABLE -->
-    <section
-        class="card hidden"
-        id="responsableCard">
+
+    <!-- ================= RESPONSABLE ================= -->
+
+    <section class="card hidden"
+             id="responsableCard">
 
         <h2 id="responsableTitle">
             2. Responsable
@@ -61,9 +91,8 @@
             Responsable
         </label>
 
-        <select
-            id="responsable"
-            onchange="changeResponsable()">
+        <select id="responsable"
+                onchange="changeResponsable()">
 
             <option value="">
                 -- Choisir --
@@ -74,10 +103,11 @@
     </section>
 
 
-    <!-- PROJECT -->
-    <section
-        class="card hidden"
-        id="projectCard">
+
+    <!-- ================= PROJET ================= -->
+
+    <section class="card hidden"
+             id="projectCard">
 
         <h2>
             3. Projet
@@ -87,9 +117,8 @@
             Nom du projet
         </label>
 
-        <select
-            id="project"
-            onchange="generateInvoice()">
+        <select id="project"
+                onchange="generateInvoice()">
 
             <option value="">
                 -- Choisir le projet --
@@ -128,16 +157,24 @@
     </section>
 
 
-    <!-- FACTURE -->
-    <section
-        class="invoice-container hidden"
-        id="invoiceContainer">
 
-        <div
-            class="invoice"
-            id="invoice">
+    <!-- ================= FACTURE ================= -->
+
+    <section class="invoice-container hidden"
+             id="invoiceContainer">
+
+
+        <div class="invoice"
+             id="invoice">
+
+
+            <!-- FACTURE HEADER -->
 
             <div class="invoice-header">
+
+                <div class="invoice-brand">
+                    InComGroup
+                </div>
 
                 <h2>
                     MATIER CALCULATOR
@@ -150,8 +187,11 @@
             </div>
 
 
+
             <!-- INFORMATIONS -->
+
             <div class="invoice-info">
+
 
                 <div class="info-box">
 
@@ -163,6 +203,7 @@
                     </span>
 
                 </div>
+
 
 
                 <div class="info-box">
@@ -177,6 +218,7 @@
                 </div>
 
 
+
                 <div class="info-box">
 
                     <strong>
@@ -187,6 +229,7 @@
                     </span>
 
                 </div>
+
 
 
                 <div class="info-box">
@@ -201,6 +244,7 @@
                 </div>
 
 
+
                 <div class="info-box">
 
                     <strong>
@@ -212,13 +256,17 @@
 
                 </div>
 
+
             </div>
 
 
-            <!-- MATERIALS -->
+
+            <!-- MATERIAL -->
+
             <h3 class="material-title">
                 Contenu du projet
             </h3>
+
 
 
             <div class="table-wrapper">
@@ -255,6 +303,7 @@
 
 
                     <tbody id="materialBody">
+
                     </tbody>
 
                 </table>
@@ -262,10 +311,13 @@
             </div>
 
 
+
             <!-- TOTAL -->
+
             <div class="total">
 
                 Nombre total de références :
+
                 <span id="totalReferences">
                     0
                 </span>
@@ -273,8 +325,11 @@
             </div>
 
 
+
             <!-- SIGNATURES -->
+
             <div class="signatures">
+
 
                 <div class="signature">
 
@@ -289,6 +344,7 @@
                 </div>
 
 
+
                 <div class="signature">
 
                     <div class="signature-line">
@@ -300,13 +356,28 @@
 
                 </div>
 
+
             </div>
+
 
         </div>
 
 
-        <!-- PRINT -->
+
+        <!-- ================= BUTTONS ================= -->
+
         <div class="no-print buttons">
+
+
+            <button
+                class="btn btn-download"
+                onclick="downloadInvoice()">
+
+                📥 Télécharger la facture
+
+            </button>
+
+
 
             <button
                 class="btn btn-print"
@@ -316,21 +387,35 @@
 
             </button>
 
+
         </div>
+
 
     </section>
 
 
+
+    <!-- ================= FOOTER ================= -->
+
     <footer class="footer">
+
+        <strong>
+            InComGroup
+        </strong>
+
+        <br>
 
         Matier Calculator
 
     </footer>
 
+
 </div>
+
 
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
