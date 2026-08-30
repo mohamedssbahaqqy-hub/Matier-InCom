@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Matier Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Matier Calculator</h1>
+        <p>Gestion et calcul automatique du matériel</p>
+    </header>
+
+
+    <!-- POSTE -->
+    <section class="card">
+
+        <h2>1. Sélection du Poste</h2>
+
+        <label for="poste">
+            Poste
+        </label>
+
+        <select id="poste" onchange="changePoste()">
+
+            <option value="">
+                -- Choisir le Poste --
+            </option>
+
+            <option value="450">
+                Poste 450
+            </option>
+
+            <option value="402">
+                Poste 402
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- RESPONSABLE -->
+    <section
+        class="card hidden"
+        id="responsableCard">
+
+        <h2 id="responsableTitle">
+            2. Responsable
+        </h2>
+
+        <label id="responsableLabel">
+            Responsable
+        </label>
+
+        <select
+            id="responsable"
+            onchange="changeResponsable()">
+
+            <option value="">
+                -- Choisir --
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- PROJECT -->
+    <section
+        class="card hidden"
+        id="projectCard">
+
+        <h2>
+            3. Projet
+        </h2>
+
+        <label for="project">
+            Nom du projet
+        </label>
+
+        <select
+            id="project"
+            onchange="generateInvoice()">
+
+            <option value="">
+                -- Choisir le projet --
+            </option>
+
+            <option value="V163 Damiel">
+                V163 Damiel
+            </option>
+
+            <option value="V163 WD">
+                V163 WD
+            </option>
+
+            <option value="V136">
+                V136
+            </option>
+
+            <option value="V110">
+                V110
+            </option>
+
+            <option value="V236">
+                V236
+            </option>
+
+            <option value="G145">
+                G145
+            </option>
+
+            <option value="G170">
+                G170
+            </option>
+
+        </select>
+
+    </section>
+
+
+    <!-- FACTURE -->
+    <section
+        class="invoice-container hidden"
+        id="invoiceContainer">
+
+        <div
+            class="invoice"
+            id="invoice">
+
+            <div class="invoice-header">
+
+                <h2>
+                    MATIER CALCULATOR
+                </h2>
+
+                <p>
+                    Demande de matériel
+                </p>
+
+            </div>
+
+
+            <!-- INFORMATIONS -->
+            <div class="invoice-info">
+
+                <div class="info-box">
+
+                    <strong>
+                        POSTE
+                    </strong>
+
+                    <span id="invoicePoste">
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        RESPONSABLE
+                    </strong>
+
+                    <span id="invoiceResponsable">
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        PROJET
+                    </strong>
+
+                    <span id="invoiceProject">
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        DATE
+                    </strong>
+
+                    <span id="invoiceDate">
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        HEURE
+                    </strong>
+
+                    <span id="invoiceTime">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MATERIALS -->
+            <h3 class="material-title">
+                Contenu du projet
+            </h3>
+
+
+            <div class="table-wrapper">
+
+                <table class="material-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                N°
+                            </th>
+
+                            <th>
+                                REFERENCE
+                            </th>
+
+                            <th>
+                                MATERIAL NAME
+                            </th>
+
+                            <th>
+                                QUANTITY
+                            </th>
+
+                            <th>
+                                UNIT
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="materialBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- TOTAL -->
+            <div class="total">
+
+                Nombre total de références :
+                <span id="totalReferences">
+                    0
+                </span>
+
+            </div>
+
+
+            <!-- SIGNATURES -->
+            <div class="signatures">
+
+                <div class="signature">
+
+                    <div class="signature-line">
+                    </div>
+
+                    <p>
+                        Signature Team Leader /
+                        Coordinateur
+                    </p>
+
+                </div>
+
+
+                <div class="signature">
+
+                    <div class="signature-line">
+                    </div>
+
+                    <p>
+                        Signature Magasinier
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRINT -->
+        <div class="no-print buttons">
+
+            <button
+                class="btn btn-print"
+                onclick="printInvoice()">
+
+                🖨️ Imprimer / PDF
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+        Matier Calculator
+
+    </footer>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
