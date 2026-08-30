@@ -2,36 +2,50 @@ name: Build Matier Calculator APK
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
   build:
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
 
+      # 1. تحميل المشروع
       - name: Checkout
         uses: actions/checkout@v4
 
+
+      # 2. إعداد Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
+
+      # 3. إعداد Java 21
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
+          cache: gradle
 
+
+      # 4. إنشاء مجلد التطبيق Web
       - name: Create Web App Folder
         run: |
           mkdir -p www
+
           cp index.html www/index.html
           cp style.css www/style.css
           cp script.js www/script.js
 
+
+      # 5. إنشاء package.json
       - name: Create package.json
         run: |
           cat > package.json <<'EOF'
@@ -42,22 +56,34 @@ jobs:
           }
           EOF
 
+
+      # 6. تثبيت Capacitor
       - name: Install Capacitor
         run: |
           npm install @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
 
+
+      # 7. إنشاء مشروع Android
       - name: Initialize Android Project
         run: |
           npx cap init "Matier Calculator" "com.incomgroup.matiercalculator" --web-dir www
+
           npx cap add android
+
           npx cap sync android
 
+
+      # 8. Build APK
       - name: Build APK
         run: |
           cd android
+
           chmod +x gradlew
+
           ./gradlew assembleDebug
 
+
+      # 9. حفظ APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
