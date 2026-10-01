@@ -1,421 +1,2489 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InCom Material Manager</title>
 
-    <meta charset="UTF-8">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<style>
+*{
+    box-sizing:border-box;
+}
 
-    <meta name="theme-color"
-          content="#172554">
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f6fa;
+    color:#222;
+}
 
-    <title>Matier Calculator</title>
+header{
+    background:#064b9b;
+    color:white;
+    padding:18px 15px;
+    text-align:center;
+}
 
-    <link rel="stylesheet"
-          href="style.css">
+header h1{
+    margin:0;
+    font-size:22px;
+}
 
+header p{
+    margin:6px 0 0;
+    font-size:12px;
+    opacity:.9;
+}
+
+nav{
+    display:flex;
+    background:white;
+    box-shadow:0 2px 8px #0002;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+nav button{
+    flex:1;
+    border:0;
+    background:white;
+    padding:13px 5px;
+    font-size:12px;
+    font-weight:bold;
+    color:#555;
+}
+
+nav button.active{
+    color:#064b9b;
+    border-bottom:3px solid #064b9b;
+}
+
+.page{
+    display:none;
+    padding:15px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.page.active{
+    display:block;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 2px 8px #0001;
+}
+
+.card h2{
+    margin:0 0 15px;
+    color:#064b9b;
+    font-size:18px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    font-size:13px;
+    margin:12px 0 5px;
+}
+
+select,
+input[type="text"],
+input[type="number"],
+input[type="file"]{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+    background:white;
+}
+
+button{
+    cursor:pointer;
+}
+
+.btn{
+    border:0;
+    border-radius:8px;
+    padding:12px 16px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.btn-primary{
+    background:#064b9b;
+    color:white;
+}
+
+.btn-success{
+    background:#12a84a;
+    color:white;
+}
+
+.btn-warning{
+    background:#f28c28;
+    color:white;
+}
+
+.btn-danger{
+    background:#d93025;
+    color:white;
+}
+
+.btn-secondary{
+    background:#666;
+    color:white;
+}
+
+.full{
+    width:100%;
+    margin-top:15px;
+}
+
+.status{
+    padding:10px;
+    border-radius:7px;
+    margin-top:12px;
+    font-size:13px;
+}
+
+.status.ok{
+    background:#e7f7ed;
+    color:#08752e;
+}
+
+.status.warn{
+    background:#fff3df;
+    color:#9a5b00;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.table-wrap{
+    overflow-x:auto;
+    margin-top:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th{
+    background:#064b9b;
+    color:white;
+    padding:9px;
+    font-size:12px;
+    text-align:left;
+}
+
+td{
+    border-bottom:1px solid #ddd;
+    padding:8px;
+    font-size:12px;
+    vertical-align:middle;
+}
+
+td input{
+    width:100px;
+    padding:7px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.summary-box{
+    background:#eef4fb;
+    border-radius:8px;
+    padding:12px;
+    text-align:center;
+}
+
+.summary-box strong{
+    display:block;
+    font-size:18px;
+    color:#064b9b;
+}
+
+.summary-box span{
+    font-size:11px;
+    color:#666;
+}
+
+.import-box{
+    border:2px dashed #b8c7d9;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.import-box h3{
+    margin-top:0;
+    color:#064b9b;
+}
+
+.history-item{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:10px;
+}
+
+.history-item strong{
+    color:#064b9b;
+}
+
+.history-actions{
+    margin-top:10px;
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+/* BON */
+#bonModal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#0008;
+    z-index:100;
+    overflow:auto;
+    padding:15px;
+}
+
+.bon-container{
+    background:white;
+    max-width:900px;
+    margin:auto;
+    padding:25px;
+    border-radius:8px;
+}
+
+.bon-header{
+    text-align:center;
+    border-bottom:2px solid #064b9b;
+    padding-bottom:12px;
+}
+
+.bon-header h1{
+    color:#064b9b;
+    margin:0;
+}
+
+.bon-header p{
+    margin:5px 0;
+}
+
+.bon-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px 20px;
+    margin:15px 0;
+}
+
+.bon-info div{
+    padding:6px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.bon-table{
+    width:100%;
+    min-width:0;
+}
+
+.bon-table th,
+.bon-table td{
+    border:1px solid #bbb;
+    font-size:11px;
+}
+
+.signatures{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    margin-top:50px;
+    text-align:center;
+}
+
+.signature-box{
+    height:80px;
+    border-top:1px solid #333;
+    padding-top:8px;
+}
+
+.bon-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+.creator{
+    margin-top:25px;
+    text-align:center;
+    color:#777;
+    font-size:11px;
+}
+
+/* mobile */
+@media(max-width:650px){
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+    .bon-info{
+        grid-template-columns:1fr;
+    }
+
+    .bon-container{
+        padding:15px;
+    }
+}
+
+/* print */
+@media print{
+    body *{
+        visibility:hidden !important;
+    }
+
+    #bonModal,
+    #bonModal *{
+        visibility:visible !important;
+    }
+
+    #bonModal{
+        position:absolute;
+        inset:0;
+        padding:0;
+        background:white;
+    }
+
+    .bon-container{
+        box-shadow:none;
+        max-width:none;
+        width:100%;
+        margin:0;
+    }
+
+    .bon-actions{
+        display:none !important;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
+<header>
+    <h1>INCOM GROUP</h1>
+    <p>MATERIAL MANAGER — Gestion de la Production et de la Logistique</p>
+</header>
 
-<div class="app">
+<nav>
+    <button class="nav-btn active" onclick="showPage('requestPage',this)">
+        DEMANDE
+    </button>
 
+    <button class="nav-btn" onclick="showPage('importPage',this)">
+        IMPORT EXCEL
+    </button>
 
-    <!-- ================= HEADER ================= -->
+    <button class="nav-btn" onclick="showPage('historyPage',this)">
+        HISTORIQUE
+    </button>
+</nav>
 
-    <header class="header">
 
-        <div class="logo-box">
-            InComGroup
-        </div>
+<!-- =========================
+     DEMANDE
+========================= -->
 
-        <h1>
-            Matier Calculator
-        </h1>
+<section id="requestPage" class="page active">
 
-        <p>
-            Gestion et calcul automatique du matériel
-        </p>
+<div class="card">
 
-    </header>
+<h2>Nouvelle demande de matière</h2>
 
+<label>Poste</label>
 
+<select id="poste" onchange="posteChanged()">
+    <option value="">-- Sélectionner --</option>
+    <option value="450">450</option>
+    <option value="402">402</option>
+    <option value="412">412</option>
+</select>
 
-    <!-- ================= POSTE ================= -->
 
-    <section class="card">
+<label>Projet</label>
 
-        <h2>
-            1. Sélection du Poste
-        </h2>
+<select id="project" onchange="projectChanged()">
+    <option value="">-- Sélectionner --</option>
+    <option value="V163 WS">V163 WS</option>
+    <option value="V163 Damiel">V163 Damiel</option>
+    <option value="V136">V136</option>
+    <option value="V110">V110</option>
+    <option value="V236">V236</option>
+    <option value="Siemens G145">Siemens G145</option>
+    <option value="Siemens G170">Siemens G170</option>
+</select>
 
-        <label for="poste">
-            Poste
-        </label>
 
-        <select id="poste"
-                onchange="changePoste()">
+<div id="referenceBox" class="hidden">
 
-            <option value="">
-                -- Choisir le Poste --
-            </option>
+<label>Reference</label>
 
-            <option value="450">
-                Poste 450
-            </option>
-
-            <option value="402">
-                Poste 402
-            </option>
-
-        </select>
-
-    </section>
-
-
-
-    <!-- ================= RESPONSABLE ================= -->
-
-    <section class="card hidden"
-             id="responsableCard">
-
-        <h2 id="responsableTitle">
-            2. Responsable
-        </h2>
-
-        <label id="responsableLabel">
-            Responsable
-        </label>
-
-        <select id="responsable"
-                onchange="changeResponsable()">
-
-            <option value="">
-                -- Choisir --
-            </option>
-
-        </select>
-
-    </section>
-
-
-
-    <!-- ================= PROJET ================= -->
-
-    <section class="card hidden"
-             id="projectCard">
-
-        <h2>
-            3. Projet
-        </h2>
-
-        <label for="project">
-            Nom du projet
-        </label>
-
-        <select id="project"
-                onchange="generateInvoice()">
-
-            <option value="">
-                -- Choisir le projet --
-            </option>
-
-            <option value="V163 Damiel">
-                V163 Damiel
-            </option>
-
-            <option value="V163 WD">
-                V163 WD
-            </option>
-
-            <option value="V136">
-                V136
-            </option>
-
-            <option value="V110">
-                V110
-            </option>
-
-            <option value="V236">
-                V236
-            </option>
-
-            <option value="G145">
-                G145
-            </option>
-
-            <option value="G170">
-                G170
-            </option>
-
-        </select>
-
-    </section>
-
-
-
-    <!-- ================= FACTURE ================= -->
-
-    <section class="invoice-container hidden"
-             id="invoiceContainer">
-
-
-        <div class="invoice"
-             id="invoice">
-
-
-            <!-- FACTURE HEADER -->
-
-            <div class="invoice-header">
-
-                <div class="invoice-brand">
-                    InComGroup
-                </div>
-
-                <h2>
-                    MATIER CALCULATOR
-                </h2>
-
-                <p>
-                    Demande de matériel
-                </p>
-
-            </div>
-
-
-
-            <!-- INFORMATIONS -->
-
-            <div class="invoice-info">
-
-
-                <div class="info-box">
-
-                    <strong>
-                        POSTE
-                    </strong>
-
-                    <span id="invoicePoste">
-                    </span>
-
-                </div>
-
-
-
-                <div class="info-box">
-
-                    <strong>
-                        RESPONSABLE
-                    </strong>
-
-                    <span id="invoiceResponsable">
-                    </span>
-
-                </div>
-
-
-
-                <div class="info-box">
-
-                    <strong>
-                        PROJET
-                    </strong>
-
-                    <span id="invoiceProject">
-                    </span>
-
-                </div>
-
-
-
-                <div class="info-box">
-
-                    <strong>
-                        DATE
-                    </strong>
-
-                    <span id="invoiceDate">
-                    </span>
-
-                </div>
-
-
-
-                <div class="info-box">
-
-                    <strong>
-                        HEURE
-                    </strong>
-
-                    <span id="invoiceTime">
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- MATERIAL -->
-
-            <h3 class="material-title">
-                Contenu du projet
-            </h3>
-
-
-
-            <div class="table-wrapper">
-
-                <table class="material-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                N°
-                            </th>
-
-                            <th>
-                                REFERENCE
-                            </th>
-
-                            <th>
-                                MATERIAL NAME
-                            </th>
-
-                            <th>
-                                QUANTITY
-                            </th>
-
-                            <th>
-                                UNIT
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="materialBody">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-
-            <!-- TOTAL -->
-
-            <div class="total">
-
-                Nombre total de références :
-
-                <span id="totalReferences">
-                    0
-                </span>
-
-            </div>
-
-
-
-            <!-- SIGNATURES -->
-
-            <div class="signatures">
-
-
-                <div class="signature">
-
-                    <div class="signature-line">
-                    </div>
-
-                    <p>
-                        Signature Team Leader /
-                        Coordinateur
-                    </p>
-
-                </div>
-
-
-
-                <div class="signature">
-
-                    <div class="signature-line">
-                    </div>
-
-                    <p>
-                        Signature Magasinier
-                    </p>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- ================= BUTTONS ================= -->
-
-        <div class="no-print buttons">
-
-
-            <button
-                class="btn btn-download"
-                onclick="downloadInvoice()">
-
-                📥 Télécharger la facture
-
-            </button>
-
-
-
-            <button
-                class="btn btn-print"
-                onclick="printInvoice()">
-
-                🖨️ Imprimer / PDF
-
-            </button>
-
-
-        </div>
-
-
-    </section>
-
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer class="footer">
-
-        <strong>
-            InComGroup
-        </strong>
-
-        <br>
-
-        Matier Calculator
-
-    </footer>
-
+<select id="reference">
+    <option value="">-- Sélectionner une référence --</option>
+    <option value="Shell">Shell</option>
+    <option value="Main Web">Main Web</option>
+    <option value="TE Web">TE Web</option>
+    <option value="TE Insert">TE Insert</option>
+    <option value="RTF">RTF</option>
+    <option value="Over Lamination">Over Lamination</option>
+</select>
 
 </div>
 
 
+<div id="dataStatus" class="status warn">
+Sélectionnez un Poste et un Projet.
+</div>
 
-<script src="script.js"></script>
+
+<button class="btn btn-primary full" onclick="calculateMaterial()">
+    🧮 CALCULER LA MATIÈRE
+</button>
+
+</div>
+
+
+<div id="resultCard" class="card hidden">
+
+<h2>Résultat</h2>
+
+<div class="summary">
+
+<div class="summary-box">
+    <strong id="totalArticles">0</strong>
+    <span>Articles</span>
+</div>
+
+<div class="summary-box">
+    <strong id="totalRolls">0</strong>
+    <span>Total rouleaux</span>
+</div>
+
+<div class="summary-box">
+    <strong id="totalArea">0</strong>
+    <span>Besoin M²</span>
+</div>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>ARTICLE</th>
+<th>DESCRIPTION</th>
+<th>REFERENCE</th>
+<th>QTY / UNIT</th>
+<th>DIMENSION</th>
+<th>M² / ROLLO</th>
+<th>BESOIN</th>
+<th>ROLLOS</th>
+<th>LOTE</th>
+<th>SERIE</th>
+</tr>
+
+</thead>
+
+<tbody id="resultBody"></tbody>
+
+</table>
+
+</div>
+
+
+<button class="btn btn-success full" onclick="generateBon()">
+    📄 GÉNÉRER BON DE MATIÈRE
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     IMPORT
+========================= -->
+
+<section id="importPage" class="page">
+
+<div class="card">
+
+<h2>Import des données Excel</h2>
+
+<p style="font-size:13px;color:#555;">
+Le fichier Excel spécifique devient la source des matières
+pour la combinaison <b>Projet + Poste</b>.
+</p>
+
+
+<div class="import-box">
+
+<h3>1. Excel général</h3>
+
+<p style="font-size:12px;">
+Optionnel. Sert pour les informations générales des articles.
+</p>
+
+<input type="file"
+       id="generalFile"
+       accept=".xlsx,.xls,.csv">
+
+<button class="btn btn-primary full"
+        onclick="importGeneralExcel()">
+    📥 IMPORTER EXCEL GÉNÉRAL
+</button>
+
+</div>
+
+
+<div class="import-box">
+
+<h3>2. Excel spécifique Projet + Poste</h3>
+
+<label>Projet</label>
+
+<select id="importProject">
+
+<option value="">-- Sélectionner --</option>
+<option value="V163 WS">V163 WS</option>
+<option value="V163 Damiel">V163 Damiel</option>
+<option value="V136">V136</option>
+<option value="V110">V110</option>
+<option value="V236">V236</option>
+<option value="Siemens G145">Siemens G145</option>
+<option value="Siemens G170">Siemens G170</option>
+
+</select>
+
+
+<label>Poste</label>
+
+<select id="importPoste">
+
+<option value="">-- Sélectionner --</option>
+<option value="450">450</option>
+<option value="402">402</option>
+<option value="412">412</option>
+
+</select>
+
+
+<label>Fichier Excel</label>
+
+<input type="file"
+       id="specificFile"
+       accept=".xlsx,.xls,.csv">
+
+
+<button class="btn btn-success full"
+        onclick="importSpecificExcel()">
+    📥 IMPORTER ET REMPLACER
+</button>
+
+<p style="font-size:11px;color:#777;margin-top:10px;">
+Si le même Projet + Poste existe déjà, ses anciennes données
+seront remplacées. Les autres projets restent inchangés.
+</p>
+
+</div>
+
+
+<div class="card" style="background:#f7f9fc;">
+
+<h3 style="color:#064b9b;">
+Colonnes reconnues
+</h3>
+
+<p style="font-size:12px;line-height:1.7;">
+
+<b>ARTICLE / CODE</b><br>
+<b>DESCRIPTION</b><br>
+<b>REFERENCE</b><br>
+<b>QNTITY / QUANTITY / QTY / BESOIN</b><br>
+<b>QNTITY PAR UNIT</b><br>
+<b>LARGEUR / WIDTH</b><br>
+<b>LONGUEUR / LENGTH</b><br>
+<b>LOT</b><br>
+<b>SERIE</b>
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     HISTORIQUE
+========================= -->
+
+<section id="historyPage" class="page">
+
+<div class="card">
+
+<h2>Historique des imports</h2>
+
+<div id="historyList"></div>
+
+<button class="btn btn-danger full"
+        onclick="clearAllData()">
+    🗑️ SUPPRIMER TOUTES LES DONNÉES
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     BON MODAL
+========================= -->
+
+<div id="bonModal">
+
+<div class="bon-container">
+
+<div class="bon-header">
+
+<h1>INCOM GROUP</h1>
+
+<h2>BON DE MATIÈRE</h2>
+
+<p>Gestion de la Production et de la Logistique</p>
+
+</div>
+
+
+<div class="bon-info">
+
+<div>
+<b>Projet:</b>
+<span id="bonProject"></span>
+</div>
+
+<div>
+<b>Poste:</b>
+<span id="bonPoste"></span>
+</div>
+
+<div>
+<b>Reference:</b>
+<span id="bonReference"></span>
+</div>
+
+<div>
+<b>Date:</b>
+<span id="bonDate"></span>
+</div>
+
+<div>
+<b>Heure:</b>
+<span id="bonTime"></span>
+</div>
+
+<div>
+<b>Source:</b>
+<span id="bonSource"></span>
+</div>
+
+</div>
+
+
+<table class="bon-table">
+
+<thead>
+
+<tr>
+<th>ARTICLE</th>
+<th>DESCRIPTION DE ARTICLE</th>
+<th>REFERENCE</th>
+<th>LOTE</th>
+<th>SERIE</th>
+<th>QNTITY PAR UNIT</th>
+<th>QNTITY PAR RROLOS</th>
+</tr>
+
+</thead>
+
+<tbody id="bonBody"></tbody>
+
+</table>
+
+
+<div class="signatures">
+
+<div class="signature-box">
+<b>MAGASINIER</b>
+</div>
+
+<div class="signature-box">
+<b>DEMANDEUR</b>
+</div>
+
+</div>
+
+
+<div class="creator">
+Created by MedBahaQQy & Oualid Elyoussfy
+</div>
+
+
+<div class="bon-actions">
+
+<button class="btn btn-warning"
+        onclick="window.print()">
+    🖨️ IMPRIMER / PDF
+</button>
+
+<button class="btn btn-success"
+        onclick="shareBon()">
+    📱 PARTAGER
+</button>
+
+<button class="btn btn-secondary"
+        onclick="closeBon()">
+    ← RETOUR
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const SPECIFIC_KEY = "incom_specific_materials_v3";
+const GENERAL_KEY  = "incom_general_materials_v3";
+const HISTORY_KEY  = "incom_import_history_v3";
+
+
+let specificData = JSON.parse(
+    localStorage.getItem(SPECIFIC_KEY) || "{}"
+);
+
+let generalData = JSON.parse(
+    localStorage.getItem(GENERAL_KEY) || "[]"
+);
+
+let historyData = JSON.parse(
+    localStorage.getItem(HISTORY_KEY) || "[]"
+);
+
+
+let currentResults = [];
+
+
+
+/* =========================================================
+   DEMO / INITIAL DATA
+   البيانات اللي عطيتيني من الصور
+========================================================= */
+
+function createInitialData(){
+
+    if(Object.keys(specificData).length > 0){
+        return;
+    }
+
+
+    /* =========================
+       V163 WS - 450
+    ========================= */
+
+    specificData["V163 WS__450"] = [
+
+        material(
+            "GLSIN10407",
+            "PEEL PLY 1500MM SST PINK R92PA66",
+            "",
+            "1500",
+            "100",
+            "1804.4535",
+            "150"
+        ),
+
+        material(
+            "GLSIN10423",
+            "PEEL PLY 500MM SST PINK R92PA66",
+            "",
+            "500",
+            "100",
+            "281.2117",
+            "50"
+        ),
+
+        material(
+            "GLSIN10424",
+            "PEEL PLY 200MM SST PINK R92PA66",
+            "",
+            "200",
+            "100",
+            "22.4948",
+            "20"
+        ),
+
+        material(
+            "GLSIN10471",
+            "PEEL PLY 300MM SST PINK R92PA66",
+            "",
+            "300",
+            "100",
+            "245.2800",
+            "30"
+        ),
+
+        material(
+            "GLSIN11068",
+            "PEEL PLY 1000MM SST PINK R92PA66",
+            "",
+            "1000",
+            "100",
+            "154.8000",
+            "100"
+        ),
+
+        material(
+            "INFIN10290",
+            "MALLA INFUSION VERDE CLARA 1,37M X 175M",
+            "",
+            "1.37",
+            "175",
+            "453.5600",
+            "239.75"
+        )
+
+    ];
+
+
+    /* =========================
+       V163 DAMIEL - 450
+    ========================= */
+
+    specificData["V163 Damiel__450"] = [
+
+        material(
+            "GLSIN10407",
+            "PEEL PLY 1500MM SST PINK R92PA66",
+            "",
+            "1500",
+            "100",
+            "2105.1957",
+            "150"
+        ),
+
+        material(
+            "GLSIN10423",
+            "PEEL PLY 500MM SST PINK R92PA66",
+            "",
+            "500",
+            "100",
+            "328.0803",
+            "50"
+        ),
+
+        material(
+            "GLSIN10424",
+            "PEEL PLY 200MM SST PINK R92PA66",
+            "",
+            "200",
+            "100",
+            "26.2439",
+            "20"
+        ),
+
+        material(
+            "GLSIN10471",
+            "PEEL PLY 300MM SST PINK R92PA66",
+            "",
+            "300",
+            "100",
+            "286.1600",
+            "30"
+        ),
+
+        material(
+            "GLSIN11068",
+            "PEEL PLY 1000MM SST PINK R92PA66",
+            "",
+            "1000",
+            "100",
+            "180.6000",
+            "100"
+        ),
+
+        material(
+            "INFIN10290",
+            "MALLA INFUSION VERDE CLARA 1,37M X 175M",
+            "",
+            "1.37",
+            "175",
+            "529.1533",
+            "239.75"
+        )
+
+    ];
+
+
+    /* =========================
+       V136 - 450
+       12 ROLLOS GLSIN10407
+    ========================= */
+
+    specificData["V136__450"] = [
+
+        material(
+            "GLSIN10407",
+            "PEEL PLY 1500MM SST PINK R92PA66",
+            "",
+            "1500",
+            "100",
+            "1800",
+            "150"
+        )
+
+    ];
+
+
+    saveData();
+}
+
+
+
+/* =========================================================
+   MATERIAL OBJECT
+========================================================= */
+
+function material(
+    article,
+    description,
+    reference,
+    width,
+    length,
+    qty,
+    m2Roll
+){
+
+    return {
+
+        Article: article,
+
+        Description: description,
+
+        Reference: reference,
+
+        QtyParUnit: "",
+
+        Qty: Number(qty),
+
+        Largeur: Number(width) / 1000,
+
+        Longueur: Number(length),
+
+        M2Roll: Number(m2Roll),
+
+        Rolls:
+            Number(m2Roll) > 0
+            ? Math.ceil(Number(qty) / Number(m2Roll))
+            : 0,
+
+        Lot: "",
+
+        Serie: ""
+
+    };
+
+}
+
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        SPECIFIC_KEY,
+        JSON.stringify(specificData)
+    );
+
+    localStorage.setItem(
+        GENERAL_KEY,
+        JSON.stringify(generalData)
+    );
+
+    localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(historyData)
+    );
+}
+
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(pageId, button){
+
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
+
+    document.getElementById(pageId)
+        .classList.add("active");
+
+
+    document.querySelectorAll(".nav-btn")
+        .forEach(b => b.classList.remove("active"));
+
+    button.classList.add("active");
+
+
+    if(pageId === "historyPage"){
+        renderHistory();
+    }
+
+}
+
+
+
+/* =========================================================
+   POSTE
+========================================================= */
+
+function posteChanged(){
+
+    const poste =
+        document.getElementById("poste").value;
+
+    const referenceBox =
+        document.getElementById("referenceBox");
+
+
+    if(poste === "402" || poste === "412"){
+
+        referenceBox.classList.remove("hidden");
+
+    }else{
+
+        referenceBox.classList.add("hidden");
+
+        document.getElementById("reference").value = "";
+
+    }
+
+
+    updateStatus();
+
+}
+
+
+
+/* =========================================================
+   PROJECT
+========================================================= */
+
+function projectChanged(){
+
+    updateStatus();
+
+}
+
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function updateStatus(){
+
+    const project =
+        document.getElementById("project").value;
+
+    const poste =
+        document.getElementById("poste").value;
+
+    const status =
+        document.getElementById("dataStatus");
+
+
+    if(!project || !poste){
+
+        status.className = "status warn";
+
+        status.innerHTML =
+            "Sélectionnez un Poste et un Projet.";
+
+        return;
+    }
+
+
+    const key =
+        project + "__" + poste;
+
+
+    if(specificData[key]){
+
+        status.className = "status ok";
+
+        status.innerHTML =
+            "✓ Données disponibles pour <b>" +
+            project +
+            "</b> — Poste <b>" +
+            poste +
+            "</b> (" +
+            specificData[key].length +
+            " articles).";
+
+    }else{
+
+        status.className = "status warn";
+
+        status.innerHTML =
+            "⚠ Aucun Excel spécifique enregistré pour " +
+            "<b>" + project + "</b> — Poste <b>" +
+            poste + "</b>.";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   CALCUL
+========================================================= */
+
+function calculateMaterial(){
+
+    const project =
+        document.getElementById("project").value;
+
+    const poste =
+        document.getElementById("poste").value;
+
+    const reference =
+        document.getElementById("reference").value;
+
+
+    if(!project || !poste){
+
+        alert("Veuillez sélectionner le Projet et le Poste.");
+
+        return;
+    }
+
+
+    if((poste === "402" || poste === "412") && !reference){
+
+        alert("Veuillez sélectionner la Reference.");
+
+        return;
+    }
+
+
+    const key =
+        project + "__" + poste;
+
+
+    let data =
+        specificData[key] || [];
+
+
+    if(data.length === 0){
+
+        alert(
+            "Aucune donnée disponible pour " +
+            project +
+            " — Poste " +
+            poste +
+            ".\n\n" +
+            "Importez d'abord le fichier Excel."
+        );
+
+        return;
+    }
+
+
+    /*
+       Poste 450
+       = toutes les matières du Projet + Poste
+
+       Poste 402 / 412
+       = seulement la Reference choisie
+    */
+
+    if(poste === "402" || poste === "412"){
+
+        data =
+            data.filter(row =>
+
+                normalizeText(row.Reference) ===
+                normalizeText(reference)
+
+            );
+
+    }
+
+
+    currentResults =
+        data.map(row => calculateRow(row));
+
+
+    renderResults();
+
+
+    document.getElementById("resultCard")
+        .classList.remove("hidden");
+
+}
+
+
+
+/* =========================================================
+   CALCUL ROW
+========================================================= */
+
+function calculateRow(row){
+
+    let qty =
+        Number(row.Qty);
+
+
+    if(!qty || qty <= 0){
+
+        qty =
+            Number(row.Besoin);
+
+    }
+
+
+    if(!qty || qty <= 0){
+
+        qty =
+            Number(row.QtyParUnit);
+
+    }
+
+
+    let m2Roll =
+        Number(row.M2Roll);
+
+
+    /*
+       إذا M2Roll ما كانتش فالـExcel
+       نحسبها من Largeur × Longueur
+
+       Largeur هنا بالمتر
+    */
+
+    if(!m2Roll || m2Roll <= 0){
+
+        const width =
+            Number(row.Largeur);
+
+        const length =
+            Number(row.Longueur);
+
+
+        if(width > 0 && length > 0){
+
+            m2Roll =
+                width * length;
+
+        }
+
+    }
+
+
+    let rolls = 0;
+
+
+    if(m2Roll > 0 && qty > 0){
+
+        rolls =
+            Math.ceil(qty / m2Roll);
+
+    }
+
+
+    return {
+
+        ...row,
+
+        Qty: qty,
+
+        M2Roll: m2Roll,
+
+        Rolls: rolls,
+
+        Lot: row.Lot || "",
+
+        Serie: row.Serie || ""
+
+    };
+
+}
+
+
+
+/* =========================================================
+   RENDER RESULTS
+========================================================= */
+
+function renderResults(){
+
+    const body =
+        document.getElementById("resultBody");
+
+
+    body.innerHTML = "";
+
+
+    let totalRolls = 0;
+
+    let totalArea = 0;
+
+
+    currentResults.forEach((row,index) => {
+
+        totalRolls +=
+            Number(row.Rolls) || 0;
+
+        totalArea +=
+            Number(row.Qty) || 0;
+
+
+        const tr =
+            document.createElement("tr");
+
+
+        tr.innerHTML = `
+
+<td>
+<b>${escapeHtml(row.Article || "")}</b>
+</td>
+
+<td>
+${escapeHtml(row.Description || "")}
+</td>
+
+<td>
+${escapeHtml(row.Reference || "-")}
+</td>
+
+<td>
+${formatNumber(row.QtyParUnit)}
+</td>
+
+<td>
+${formatDimension(row)}
+</td>
+
+<td>
+${formatNumber(row.M2Roll,4)} M²
+</td>
+
+<td>
+<b>${formatNumber(row.Qty,4)} M²</b>
+</td>
+
+<td>
+<b>${row.Rolls}</b>
+</td>
+
+<td>
+<input
+type="text"
+value="${escapeAttr(row.Lot || "")}"
+placeholder="Lot"
+oninput="currentResults[${index}].Lot=this.value">
+</td>
+
+<td>
+<input
+type="text"
+value="${escapeAttr(row.Serie || "")}"
+placeholder="Serie"
+oninput="currentResults[${index}].Serie=this.value">
+</td>
+
+`;
+
+
+        body.appendChild(tr);
+
+    });
+
+
+    document.getElementById("totalArticles")
+        .textContent = currentResults.length;
+
+
+    document.getElementById("totalRolls")
+        .textContent = totalRolls;
+
+
+    document.getElementById("totalArea")
+        .textContent =
+        formatNumber(totalArea,2) + " M²";
+
+}
+
+
+
+/* =========================================================
+   DIMENSIONS
+========================================================= */
+
+function formatDimension(row){
+
+    const width =
+        Number(row.Largeur);
+
+    const length =
+        Number(row.Longueur);
+
+
+    if(width > 0 && length > 0){
+
+        return (
+            formatNumber(width,2) +
+            " m × " +
+            formatNumber(length,2) +
+            " m"
+        );
+
+    }
+
+
+    return "-";
+
+}
+
+
+
+/* =========================================================
+   GENERATE BON
+========================================================= */
+
+function generateBon(){
+
+    if(currentResults.length === 0){
+
+        alert("Aucun résultat à imprimer.");
+
+        return;
+    }
+
+
+    const project =
+        document.getElementById("project").value;
+
+    const poste =
+        document.getElementById("poste").value;
+
+    const reference =
+        document.getElementById("reference").value;
+
+
+    const now =
+        new Date();
+
+
+    const date =
+        now.toLocaleDateString("fr-FR");
+
+
+    const time =
+        now.toLocaleTimeString("fr-FR");
+
+
+    document.getElementById("bonProject")
+        .textContent = project;
+
+
+    document.getElementById("bonPoste")
+        .textContent = poste;
+
+
+    document.getElementById("bonReference")
+        .textContent =
+        reference || "Toutes les références";
+
+
+    document.getElementById("bonDate")
+        .textContent = date;
+
+
+    document.getElementById("bonTime")
+        .textContent = time;
+
+
+    document.getElementById("bonSource")
+        .textContent =
+        "Excel / " + project + " / Poste " + poste;
+
+
+    const body =
+        document.getElementById("bonBody");
+
+
+    body.innerHTML = "";
+
+
+    currentResults.forEach(row => {
+
+        const tr =
+            document.createElement("tr");
+
+
+        tr.innerHTML = `
+
+<td>${escapeHtml(row.Article || "")}</td>
+
+<td>${escapeHtml(row.Description || "")}</td>
+
+<td>${escapeHtml(row.Reference || "-")}</td>
+
+<td>${escapeHtml(row.Lot || "")}</td>
+
+<td>${escapeHtml(row.Serie || "")}</td>
+
+<td>${formatNumber(row.QtyParUnit)}</td>
+
+<td>${row.Rolls}</td>
+
+`;
+
+
+        body.appendChild(tr);
+
+    });
+
+
+    document.getElementById("bonModal")
+        .style.display = "block";
+
+}
+
+
+
+/* =========================================================
+   CLOSE BON
+========================================================= */
+
+function closeBon(){
+
+    document.getElementById("bonModal")
+        .style.display = "none";
+
+}
+
+
+
+/* =========================================================
+   SHARE BON
+========================================================= */
+
+async function shareBon(){
+
+    const project =
+        document.getElementById("project").value;
+
+    const poste =
+        document.getElementById("poste").value;
+
+
+    let text =
+        "INCOM GROUP\n" +
+        "BON DE MATIÈRE\n\n" +
+        "Projet: " + project + "\n" +
+        "Poste: " + poste + "\n\n";
+
+
+    currentResults.forEach(row => {
+
+        text +=
+            "Article: " +
+            (row.Article || "") +
+            "\n";
+
+        text +=
+            "Description: " +
+            (row.Description || "") +
+            "\n";
+
+        text +=
+            "Reference: " +
+            (row.Reference || "-") +
+            "\n";
+
+        text +=
+            "Rouleaux: " +
+            row.Rolls +
+            "\n\n";
+
+    });
+
+
+    if(navigator.share){
+
+        try{
+
+            await navigator.share({
+
+                title:"Bon de matière",
+                text:text
+
+            });
+
+        }catch(e){}
+
+    }else{
+
+        await navigator.clipboard.writeText(text);
+
+        alert("Bon copié dans le presse-papiers.");
+
+    }
+
+}
+
+
+
+/* =========================================================
+   IMPORT GENERAL EXCEL
+========================================================= */
+
+function importGeneralExcel(){
+
+    const file =
+        document.getElementById("generalFile")
+        .files[0];
+
+
+    if(!file){
+
+        alert("Choisissez un fichier Excel.");
+
+        return;
+    }
+
+
+    readExcel(file, rows => {
+
+        generalData = rows.map(normalizeRow);
+
+        saveData();
+
+
+        alert(
+            "Excel général importé avec succès.\n" +
+            generalData.length +
+            " lignes."
+        );
+
+    });
+
+}
+
+
+
+/* =========================================================
+   IMPORT SPECIFIC EXCEL
+========================================================= */
+
+function importSpecificExcel(){
+
+    const project =
+        document.getElementById("importProject").value;
+
+    const poste =
+        document.getElementById("importPoste").value;
+
+    const file =
+        document.getElementById("specificFile")
+        .files[0];
+
+
+    if(!project || !poste){
+
+        alert("Sélectionnez le Projet et le Poste.");
+
+        return;
+    }
+
+
+    if(!file){
+
+        alert("Choisissez le fichier Excel.");
+
+        return;
+    }
+
+
+    readExcel(file, rows => {
+
+        const normalized =
+            rows
+            .map(normalizeRow)
+            .filter(row =>
+                row.Article ||
+                row.Description ||
+                row.Qty ||
+                row.Besoin
+            );
+
+
+        if(normalized.length === 0){
+
+            alert(
+                "Aucune ligne de matière reconnue.\n\n" +
+                "Vérifiez les colonnes du fichier Excel."
+            );
+
+            return;
+        }
+
+
+        const key =
+            project + "__" + poste;
+
+
+        /*
+           مهم:
+           هذا يستبدل غير نفس Project + Poste
+        */
+
+        specificData[key] =
+            normalized;
+
+
+        historyData.unshift({
+
+            project:project,
+
+            poste:poste,
+
+            file:file.name,
+
+            lines:normalized.length,
+
+            date:new Date().toLocaleString("fr-FR")
+
+        });
+
+
+        saveData();
+
+
+        updateStatus();
+
+
+        alert(
+            "Import réussi !\n\n" +
+            "Projet: " + project +
+            "\nPoste: " + poste +
+            "\nLignes: " + normalized.length +
+            "\n\nLes anciennes données de cette combinaison ont été remplacées."
+        );
+
+
+        document.getElementById("specificFile")
+            .value = "";
+
+        renderHistory();
+
+    });
+
+}
+
+
+
+/* =========================================================
+   READ EXCEL
+========================================================= */
+
+function readExcel(file, callback){
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(e){
+
+        try{
+
+            const data =
+                new Uint8Array(e.target.result);
+
+
+            const workbook =
+                XLSX.read(data,{
+                    type:"array"
+                });
+
+
+            let allRows = [];
+
+
+            /*
+               نقراو جميع Sheets
+               ماشي غير أول Sheet
+            */
+
+            workbook.SheetNames.forEach(sheetName => {
+
+                const sheet =
+                    workbook.Sheets[sheetName];
+
+
+                const rows =
+                    XLSX.utils.sheet_to_json(
+                        sheet,
+                        {
+                            defval:""
+                        }
+                    );
+
+
+                allRows =
+                    allRows.concat(rows);
+
+            });
+
+
+            callback(allRows);
+
+
+        }catch(error){
+
+            console.error(error);
+
+            alert(
+                "Erreur lors de la lecture du fichier Excel."
+            );
+
+        }
+
+    };
+
+
+    reader.readAsArrayBuffer(file);
+
+}
+
+
+
+/* =========================================================
+   NORMALIZE EXCEL ROW
+========================================================= */
+
+function normalizeRow(row){
+
+    const article =
+        getValue(row,[
+            "Article",
+            "ARTICLE",
+            "Code",
+            "CODE",
+            "Référence article",
+            "REFERENCE ARTICLE"
+        ]);
+
+
+    const description =
+        getValue(row,[
+            "Description",
+            "DESCRIPTION",
+            "Description de article",
+            "DESCRIPTION DE ARTICLE",
+            "Material",
+            "MATERIAL"
+        ]);
+
+
+    const reference =
+        getValue(row,[
+            "Reference",
+            "REFERENCE",
+            "Référence",
+            "RÉFÉRENCE",
+            "REF",
+            "Reference production"
+        ]);
+
+
+    const qty =
+        numberValue(
+            getValue(row,[
+                "Qty",
+                "QTY",
+                "QNTITY",
+                "QUANTITY",
+                "Quantity",
+                "Besoin",
+                "BESOIN",
+                "QNTITY TOTALE",
+                "QUANTITE TOTALE",
+                "Quantité"
+            ])
+        );
+
+
+    const qtyParUnit =
+        numberValue(
+            getValue(row,[
+                "QtyParUnit",
+                "Qty Par Unit",
+                "QNTITY PAR UNIT",
+                "QNTITY PAR UNITI",
+                "Quantity par unit",
+                "QUANTITY PAR UNIT"
+            ])
+        );
+
+
+    let largeur =
+        numberValue(
+            getValue(row,[
+                "Largeur",
+                "LARGEUR",
+                "Width",
+                "WIDTH",
+                "Largeur (m)",
+                "Largeur(m)"
+            ])
+        );
+
+
+    let longueur =
+        numberValue(
+            getValue(row,[
+                "Longueur",
+                "LONGUEUR",
+                "Length",
+                "LENGTH",
+                "Longueur (m)",
+                "Longueur(m)"
+            ])
+        );
+
+
+    /*
+       إذا Excel عطانا Largeur بالمليمتر
+       نحولوها للمتر.
+    */
+
+    if(largeur > 10){
+
+        largeur =
+            largeur / 1000;
+
+    }
+
+
+    const lot =
+        getValue(row,[
+            "LOT",
+            "Lot",
+            "Lote"
+        ]);
+
+
+    const serie =
+        getValue(row,[
+            "SERIE",
+            "Serie",
+            "Série"
+        ]);
+
+
+    let m2Roll =
+        numberValue(
+            getValue(row,[
+                "M2Roll",
+                "M²/Rollo",
+                "M2 / ROLLO",
+                "M2 ROLLO",
+                "Surface par rouleau"
+            ])
+        );
+
+
+    /*
+       إذا M2/roll ما موجوداش
+       نحسبوها Width × Length
+    */
+
+    if(!m2Roll && largeur > 0 && longueur > 0){
+
+        m2Roll =
+            largeur * longueur;
+
+    }
+
+
+    return {
+
+        Article:article,
+
+        Description:description,
+
+        Reference:reference,
+
+        Qty:qty,
+
+        Besoin:qty,
+
+        QtyParUnit:qtyParUnit,
+
+        Largeur:largeur,
+
+        Longueur:longueur,
+
+        M2Roll:m2Roll,
+
+        Rolls:
+            m2Roll > 0 && qty > 0
+            ? Math.ceil(qty / m2Roll)
+            : 0,
+
+        Lot:lot,
+
+        Serie:serie
+
+    };
+
+}
+
+
+
+/* =========================================================
+   GET VALUE
+========================================================= */
+
+function getValue(row, names){
+
+    for(const name of names){
+
+        if(
+            Object.prototype.hasOwnProperty
+            .call(row,name)
+        ){
+
+            return row[name];
+
+        }
+
+    }
+
+
+    /*
+       دعم أسماء فيها spaces / accents
+    */
+
+    const normalizedKeys =
+        Object.keys(row).map(key => ({
+            original:key,
+            normalized:normalizeKey(key)
+        }));
+
+
+    for(const name of names){
+
+        const target =
+            normalizeKey(name);
+
+
+        const found =
+            normalizedKeys.find(
+                item => item.normalized === target
+            );
+
+
+        if(found){
+
+            return row[found.original];
+
+        }
+
+    }
+
+
+    return "";
+
+}
+
+
+
+/* =========================================================
+   NORMALIZE KEY
+========================================================= */
+
+function normalizeKey(value){
+
+    return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/²/g,"2")
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g,"");
+
+}
+
+
+
+/* =========================================================
+   NORMALIZE TEXT
+========================================================= */
+
+function normalizeText(value){
+
+    return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .toLowerCase()
+        .trim();
+
+}
+
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+function numberValue(value){
+
+    if(value === null || value === undefined){
+
+        return 0;
+
+    }
+
+
+    if(typeof value === "number"){
+
+        return value;
+
+    }
+
+
+    let str =
+        String(value)
+        .trim()
+        .replace(/\s/g,"")
+        .replace(",", ".");
+
+
+    /*
+       مثلاً:
+       1.800,50
+    */
+
+    if(
+        str.includes(".") &&
+        str.includes(",")
+    ){
+
+        str =
+            str.replace(/\./g,"")
+                .replace(",", ".");
+
+    }
+
+
+    const result =
+        parseFloat(
+            str.replace(/[^0-9.-]/g,"")
+        );
+
+
+    return isNaN(result)
+        ? 0
+        : result;
+
+}
+
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(){
+
+    const container =
+        document.getElementById("historyList");
+
+
+    container.innerHTML = "";
+
+
+    if(historyData.length === 0){
+
+        container.innerHTML =
+            "<p style='color:#777;'>Aucun import.</p>";
+
+        return;
+
+    }
+
+
+    historyData.forEach((item,index) => {
+
+        const div =
+            document.createElement("div");
+
+
+        div.className =
+            "history-item";
+
+
+        div.innerHTML = `
+
+<strong>
+${escapeHtml(item.project)}
+</strong>
+
+<br>
+
+Poste:
+<b>${escapeHtml(item.poste)}</b>
+
+<br>
+
+Fichier:
+${escapeHtml(item.file)}
+
+<br>
+
+Lignes:
+${item.lines}
+
+<br>
+
+Date:
+${escapeHtml(item.date)}
+
+<div class="history-actions">
+
+<button class="btn btn-danger"
+onclick="deleteProjectData(
+'${escapeAttr(item.project)}',
+'${escapeAttr(item.poste)}'
+)">
+Supprimer ces données
+</button>
+
+</div>
+
+`;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+
+/* =========================================================
+   DELETE PROJECT + POSTE
+========================================================= */
+
+function deleteProjectData(project,poste){
+
+    if(!confirm(
+        "Supprimer les données de " +
+        project +
+        " — Poste " +
+        poste +
+        " ?"
+    )){
+
+        return;
+
+    }
+
+
+    const key =
+        project + "__" + poste;
+
+
+    delete specificData[key];
+
+
+    historyData =
+        historyData.filter(
+            item =>
+                !(
+                    item.project === project &&
+                    item.poste === poste
+                )
+        );
+
+
+    saveData();
+
+    renderHistory();
+
+    updateStatus();
+
+
+    alert("Données supprimées.");
+
+}
+
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+function clearAllData(){
+
+    if(!confirm(
+        "ATTENTION !\n\n" +
+        "Cette action supprimera toutes les données importées.\n\n" +
+        "Continuer ?"
+    )){
+
+        return;
+
+    }
+
+
+    specificData = {};
+
+    generalData = [];
+
+    historyData = [];
+
+
+    saveData();
+
+
+    renderHistory();
+
+    updateStatus();
+
+
+    alert("Toutes les données ont été supprimées.");
+
+}
+
+
+
+/* =========================================================
+   FORMAT NUMBER
+========================================================= */
+
+function formatNumber(value, decimals = 2){
+
+    const num =
+        Number(value);
+
+
+    if(!isFinite(num)){
+
+        return "0";
+
+    }
+
+
+    return num.toLocaleString(
+        "fr-FR",
+        {
+            minimumFractionDigits:decimals,
+            maximumFractionDigits:decimals
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttr(value){
+
+    return escapeHtml(value);
+
+}
+
+
+
+/* =========================================================
+   START
+========================================================= */
+
+createInitialData();
+
+updateStatus();
+
+renderHistory();
+
+</script>
 
 </body>
-
 </html>
